@@ -654,15 +654,38 @@
      }
  
      public final void setOldPosAndRot() {
-@@ -1584,6 +_,8 @@
+@@ -1584,6 +_,7 @@
      public void push(Entity entity) {
          if (!this.isPassengerOfSameVehicle(entity)) {
              if (!entity.noPhysics && !this.noPhysics) {
 +                if (this.level.paperConfig().collisions.onlyPlayersCollide && !(entity instanceof ServerPlayer || this instanceof ServerPlayer)) return; // Paper - Collision option for requiring a player participant
-+                if (!new io.papermc.paper.event.entity.EntityCollideWithEntityEvent(this.getBukkitEntity(), entity.getBukkitEntity()).callEvent()) return; // Paper - Add EntityCollideWithEntity Event
                  double d = entity.getX() - this.getX();
                  double d1 = entity.getZ() - this.getZ();
                  double max = Mth.absMax(d, d1);
+@@ -1600,13 +_,21 @@
+                     d1 *= d2;
+                     d *= 0.05F;
+                     d1 *= 0.05F;
++
++                    // Paper start - Add EntityCollideWithEntityEvent
++                    io.papermc.paper.event.entity.EntityCollideWithEntityEvent event = new io.papermc.paper.event.entity.EntityCollideWithEntityEvent(this.getBukkitEntity(), entity.getBukkitEntity(), d, 0.0, d1);
++                    if (!event.callEvent()) {
++                        return;
++                    }
++
+                     if (!this.isVehicle() && this.isPushable()) {
+-                        this.push(-d, 0.0, -d1);
++                        this.push(-event.getPushX(), event.getPushY(), -event.getPushZ());
+                     }
+ 
+                     if (!entity.isVehicle() && entity.isPushable()) {
+-                        entity.push(d, 0.0, d1);
++                        entity.push(event.getPushX(), event.getPushY(), event.getPushZ());
+                     }
++                    // Paper end - Add EntityCollideWithEntityEvent
+                 }
+             }
+         }
 @@ -1617,7 +_,21 @@
      }
  

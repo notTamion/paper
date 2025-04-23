@@ -17,10 +17,16 @@ public class EntityCollideWithEntityEvent extends Event implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private boolean cancelled;
     private final Set<Entity> entities;
+    private double pushX;
+    private double pushY;
+    private double pushZ;
 
     @ApiStatus.Internal
-    public EntityCollideWithEntityEvent(@NotNull Entity entity1, @NotNull Entity entity2) {
-        entities = Set.of(entity1, entity2);
+    public EntityCollideWithEntityEvent(@NotNull Entity entity1, @NotNull Entity entity2, double pushX, double pushY, double pushZ) {
+        this.entities = Set.of(entity1, entity2);
+        this.pushX = pushX;
+        this.pushY = pushY;
+        this.pushZ = pushZ;
     }
 
     /**
@@ -29,7 +35,61 @@ public class EntityCollideWithEntityEvent extends Event implements Cancellable {
      * @return Entities that are involved in this event
      */
     public @NotNull Set<Entity> getEntities() {
-        return entities;
+        return this.entities;
+    }
+
+    /**
+     * Returns push in the X direction
+     *
+     * @return push in the X direction
+     */
+    public double getPushX() {
+        return this.pushX;
+    }
+
+    /**
+     * Returns push in the Y direction
+     *
+     * @return push in the Y direction
+     */
+    public double getPushY() {
+        return this.pushY;
+    }
+
+    /**
+     * Returns push in the Z direction
+     *
+     * @return push in the Z direction
+     */
+    public double getPushZ() {
+        return this.pushZ;
+    }
+
+    /**
+     * Sets the push in the X direction
+     *
+     * @param pushX push in the X direction
+     */
+    public void setPushX(double pushX) {
+        this.pushX = pushX;
+    }
+
+    /**
+     * Sets the push in the Y direction
+     *
+     * @param pushY push in the Y direction
+     */
+    public void setPushY(double pushY) {
+        this.pushY = pushY;
+    }
+
+    /**
+     * Sets the push in the Z direction
+     *
+     * @param pushZ push in the Z direction
+     */
+    public void setPushZ(double pushZ) {
+        this.pushZ = pushZ;
     }
 
     @Override

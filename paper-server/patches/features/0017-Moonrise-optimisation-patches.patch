@@ -28372,7 +28372,7 @@ index 8cc5c0716392ba06501542ff5cbe71ee43979e5d..09fd99c9cbd23b5f3c899bfb00c9b896
 +    // Paper end - block counting
  }
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3f3ce1974 100644
+index ad2cf878c3aa92e2fdde57ed94fde604738ac653..2f5859a47fe9101ff68c4c821636f828bccb68cc 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -135,7 +135,7 @@ import net.minecraft.world.scores.ScoreHolder;
@@ -28725,7 +28725,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
      }
  
      private static float[] collectCandidateStepUpHeights(AABB box, List<VoxelShape> colliders, float deltaY, float maxUpStep) {
-@@ -2663,23 +2811,110 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -2670,23 +2818,110 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      }
  
      public boolean isInWall() {
@@ -28849,7 +28849,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
      }
  
      public InteractionResult interact(Player player, InteractionHand hand) {
-@@ -4103,15 +4338,17 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4110,15 +4345,17 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      }
  
      public Iterable<Entity> getIndirectPassengers() {
@@ -28875,7 +28875,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
      }
  
      public int countPlayerPassengers() {
-@@ -4249,77 +4486,136 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4256,77 +4493,136 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          return Mth.lerp(partialTick, this.yRotO, this.yRot);
      }
  
@@ -29066,7 +29066,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
  
      public boolean touchingUnloadedChunk() {
          AABB aabb = this.getBoundingBox().inflate(1.0);
-@@ -4472,6 +4768,15 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4479,6 +4775,15 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          this.setPosRaw(x, y, z, false);
      }
      public final void setPosRaw(double x, double y, double z, boolean forceBoundingBoxUpdate) {
@@ -29082,7 +29082,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
          if (!checkPosition(this, x, y, z)) {
              return;
          }
-@@ -4602,6 +4907,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4609,6 +4914,12 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
  
      @Override
      public final void setRemoved(Entity.RemovalReason removalReason, org.bukkit.event.entity.EntityRemoveEvent.Cause cause) {
@@ -29095,7 +29095,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
          org.bukkit.craftbukkit.event.CraftEventFactory.callEntityRemoveEvent(this, cause);
          // CraftBukkit end
          final boolean alreadyRemoved = this.removalReason != null; // Paper - Folia schedulers
-@@ -4613,7 +4924,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4620,7 +4931,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
              this.stopRiding();
          }
  
@@ -29104,7 +29104,7 @@ index 55a349add4a2007f13dc5368187dbae03d2dec88..684851d4e1f2c50207027ecf9fd6fcc3
          this.levelCallback.onRemove(removalReason);
          this.onRemoval(removalReason);
          // Paper start - Folia schedulers
-@@ -4647,7 +4958,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4654,7 +4965,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      public boolean shouldBeSaved() {
          return (this.removalReason == null || this.removalReason.shouldSave())
              && !this.isPassenger()
