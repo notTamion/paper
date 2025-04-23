@@ -4,6 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import java.util.Set;
@@ -12,30 +13,30 @@ import java.util.Set;
  * Fired when two entities collide with each other.
  * If cancelled, the entities won't get pushed away from each other.
  */
-public class EntityCollideWithEntityEvent extends Event implements Cancellable {
+public class EntityCollideWithEntityEvent extends EntityEvent implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
+    private final Entity collided;
     private boolean cancelled;
-    private final Set<Entity> entities;
     private double pushX;
     private double pushY;
     private double pushZ;
 
     @ApiStatus.Internal
-    public EntityCollideWithEntityEvent(@NotNull Entity entity1, @NotNull Entity entity2, double pushX, double pushY, double pushZ) {
-        this.entities = Set.of(entity1, entity2);
+    public EntityCollideWithEntityEvent(@NotNull Entity collider, @NotNull Entity collided, double pushX, double pushY, double pushZ) {
+        super(collider);
+        this.collided = collided;
         this.pushX = pushX;
         this.pushY = pushY;
         this.pushZ = pushZ;
     }
 
-    /**
-     * Returns the Entities involved in this event
-     *
-     * @return Entities that are involved in this event
-     */
-    public @NotNull Set<Entity> getEntities() {
-        return this.entities;
+    public Entity getCollider() {
+        return this.getEntity();
+    }
+
+    public Entity getCollided() {
+        return this.collided;
     }
 
     /**
